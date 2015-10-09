@@ -29,8 +29,9 @@ $(document).ready(function(){
                 console.log(response);
 
                 //append the result to the DOM
-                $('.appendMe').append(response);
-                $('.appendMe').append("<div></div>");
+                //$('.appendMe').append(response);
+                $('.appendMe').append("<div>" + input1 + ", " + input2 + ", " + operation + " ==> " +response + "" + "</div>");
+                //$('.appendMe').append("<div></div>");
 
                 //clear the data entry boxes
                 $('#fInput1').val('');
