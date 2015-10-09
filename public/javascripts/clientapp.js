@@ -1,57 +1,66 @@
 $(document).ready(function(){
 
-    console.log('hello from client');
+    console.log('client:hello');
     
     var input1 = 0;
     var input2 = 0;
     var operation = "";
-    var jsonTX ="";
 
-$('#inputForm').submit(function(event){
-    event.preventDefault();
-    console.log('saw submit button');
-    var $input1 = $('#fInput1');
-    var $input2 = $('#fInput2');
+    //grab data from the form
+    $('#inputForm').submit(function(event){
+        event.preventDefault();
+        console.log('saw submit button');
+        var input1 = $('#fInput1').val();
+        var input2 = $('#fInput2').val();
 
-    jsonTX ="[";
-    jsonTX+="'input1':'"+$input1.val()+"',";
-    jsonTX+="'input2':'"+$input2.val()+"',";
-    jsonTX+=operation;
-    jsonTX+="]";
+        console.log('data to send: ', input1,input2,operation);
 
-    console.log('json string:', jsonTX);
-});
+
+        //send to server and receive the result back
+        $.ajax({
+            type: 'POST',
+            url: '/calc/data_in',
+            //data: jsonTX,
+            data: {input1:input1,input2:input2,operation:operation},
+            beforeSend: function(stuff) {
+                //console.log(stuff);
+            },
+            success: function(response){  //response is the calc result
+                console.log(response);
+
+                //append the result to the DOM
+                $('.appendMe').append(response);
+                $('.appendMe').append("<div></div>");
+
+                //clear the data entry boxes
+                $('#fInput1').val('');
+                $('#fInput2').val('');
+            }
+        });
+
+    });
+
+    //buttons provide the operator
 
     $('#addButton').on('click',function(){
         console.log('saw addButton');
-        operation="'operation':'add'";
+        operation="add";
     });
 
     $('#subButton').on('click',function(){
         console.log('saw subtractButton');
-        operation="'operation':'sub'";
+        operation="sub";
     });
 
     $('#multButton').on('click',function(){
         console.log('saw MultiplydButton');
-        operation="'operation':'mult'";
+        operation="mult";
     });
 
     $('#divButton').on('click',function(){
         console.log('saw divideButton');
-        operation="'operation':'div'";
+        operation="div";
     });
-
-
-
-
-
-
-
-
-
-    $('.appendMe').append("the answer");
-
 
 });
 
